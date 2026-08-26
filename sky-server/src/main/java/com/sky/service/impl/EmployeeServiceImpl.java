@@ -80,12 +80,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         // 将剩余属性补全
         employee.setStatus(StatusConstant.ENABLE);  // 启用状态
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));   // 初始密码
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-
-        // 设置新员工创建人id 和修改人id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
     }
@@ -99,8 +93,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         // 使用PageHelper 进行分页查询
         PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
-
         Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+
+        if(page.getResult().isEmpty() && employeePageQueryDTO.getPage() > 1){
+            PageHelper.startPage(1,employeePageQueryDTO.getPageSize());
+            page = employeeMapper.pageQuery(employeePageQueryDTO);
+        }
 
         long total = page.getTotal();
         List<Employee> records = page.getResult();
@@ -138,8 +136,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void update(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
-        employee.setUpdateUser(BaseContext.getCurrentId());
-        employee.setUpdateTime(LocalDateTime.now());
 
         employeeMapper.update(employee);
     }
