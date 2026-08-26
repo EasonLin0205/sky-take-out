@@ -75,4 +75,18 @@ public class CategoryServiceImpl implements CategoryService {
         category.setUpdateUser(BaseContext.getCurrentId());
         categoryMapper.update(category);
     }
+
+    /**
+     * 启用/禁用分类
+     * @param status
+     * @param id
+     */
+    @Override
+    public void switchStatus(Integer status, Long id) {
+        Category category = Category.builder()
+                .id(id)
+                .status(status)
+                .build();
+        categoryMapper.update(category);
+    }
 }

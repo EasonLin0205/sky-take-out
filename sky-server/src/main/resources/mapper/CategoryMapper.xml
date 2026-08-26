@@ -14,6 +14,9 @@
             <if test="type != null">
                 type = #{type}
             </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
         </set>
         where id = #{id}
     </update>
