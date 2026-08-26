@@ -3,6 +3,7 @@ package com.sky.controller.admin;
 import com.sky.constant.JwtClaimsConstant;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
+import com.sky.entity.Category;
 import com.sky.properties.JwtProperties;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -91,5 +93,17 @@ public class CategoryController {
         log.info("{}分类 id:{}",(status==1?"启用":"禁用"),id);
         categoryService.switchStatus(status,id);
         return Result.success();
+    }
+
+    /**
+     * 根据类型查询分类
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiOperation("根据类型查询分类")
+    public Result<List<Category>> list(Integer type){
+        log.info("根据类型查询分类:{}",type);
+        List<Category> categoryList = categoryService.list(type);
+        return Result.success(categoryList);
     }
 }

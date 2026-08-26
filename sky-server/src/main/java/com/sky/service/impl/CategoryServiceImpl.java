@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void insert(CategoryDTO categoryDTO) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO,category);
-        category.setStatus(1);
+        category.setStatus(0);
         category.setCreateTime(LocalDateTime.now());
         category.setUpdateTime(LocalDateTime.now());
         category.setCreateUser(BaseContext.getCurrentId());
@@ -88,5 +88,10 @@ public class CategoryServiceImpl implements CategoryService {
                 .status(status)
                 .build();
         categoryMapper.update(category);
+    }
+
+    @Override
+    public List<Category> list(Integer type) {
+        return categoryMapper.selectByType(type);
     }
 }
