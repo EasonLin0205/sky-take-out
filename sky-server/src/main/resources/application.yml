@@ -16,6 +16,12 @@ spring:
     multipart:
           max-file-size: 10MB       # 单个文件最大10MB
           max-request-size: 10MB    # 整个请求最大10MB
+  redis:
+    host: localhost
+    port: 6379
+    password: lzc8208311
+    database: 0
+    timeout: 60s
 
 mybatis:
   #mapper配置文件
