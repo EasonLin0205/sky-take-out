@@ -11,4 +11,7 @@
                 (#{df.dishId}, #{df.name}, #{df.value})
             </foreach>
     </insert>
+    <delete id="deleteBatchByDishId">
+        delete from dish_flavor where dish_id = #{id}
+    </delete>
 </mapper>
